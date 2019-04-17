@@ -1,4 +1,4 @@
-var TIMEOUT_IN_SECS = 3
+var TIMEOUT_IN_SECS = 3 * 60
 var TEMPLATE = '<h1><span class="js-timer-minutes">00</span>:<span class="js-timer-seconds">00</span></h1>'
 var MESSAGES = ["Задания на Devman проверили? посмотри",
                 "Есть что-то хочется не правда ли?",
@@ -7,7 +7,7 @@ var MESSAGES = ["Задания на Devman проверили? посмотри
                 "Чтобы голова не болела надобы размяться",
                 "Брысь от сюда, время кончилось"
 ];
-var MESSAGES_TIMEOUT = 2;
+var MESSAGES_TIMEOUT = 30;
 
 function padZero(number){
   return ("00" + String(number)).slice(-2);
@@ -67,8 +67,14 @@ class TimerWidget{
       this.unmount()
 
     // adds HTML tag to current page
-    this.timerContainer = document.createElement("div class='timer-content'")
-
+    this.timerContainer = document.createElement("div")
+    this.timerContainer.style.cssText=" \
+      position: fixed; \
+      z-index: 200; \
+      margin: 10px 0px 0px 10px; \
+      padding: 0px 10px 0px 35px; \
+      height: 80px; \
+    ";
     this.timerContainer.innerHTML = TEMPLATE
 
     rootTag.insertBefore(this.timerContainer, rootTag.firstChild)
