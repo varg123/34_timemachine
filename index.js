@@ -1,9 +1,13 @@
-var TIMEOUT_IN_SECS = 3 * 60
+var TIMEOUT_IN_SECS = 3
 var TEMPLATE = '<h1><span class="js-timer-minutes">00</span>:<span class="js-timer-seconds">00</span></h1>'
-var MESSAGES = ["Фраза 1",
-                "Фраза 2"
+var MESSAGES = ["Задания на Devman проверили? посмотри",
+                "Есть что-то хочется не правда ли?",
+                "Ням-ням",
+                "Что сейчас делает твоя подруга? Уверен что она не с другим? :)",
+                "Чтобы голова не болела надобы размяться",
+                "Брысь от сюда, время кончилось"
 ];
-var MESSAGES_TIMEOUT = 30;
+var MESSAGES_TIMEOUT = 2;
 
 function padZero(number){
   return ("00" + String(number)).slice(-2);
@@ -36,7 +40,12 @@ class Timer{
   reset(timeout_in_secs){
     this.isRunning = false
     this.timestampOnStart = null
-    this.timeout_in_secs = this.initial_timeout_in_secs
+    if (timeout_in_secs) {
+      this.timeout_in_secs = timeout_in_secs
+    } 
+    else {
+      this.timeout_in_secs = this.initial_timeout_in_secs
+    }
   }
   calculateSecsLeft(){
     if (!this.isRunning)
@@ -58,9 +67,8 @@ class TimerWidget{
       this.unmount()
 
     // adds HTML tag to current page
-    this.timerContainer = document.createElement('div')
+    this.timerContainer = document.createElement("div class='timer-content'")
 
-    this.timerContainer.setAttribute("style", "height: 100px;")
     this.timerContainer.innerHTML = TEMPLATE
 
     rootTag.insertBefore(this.timerContainer, rootTag.firstChild)
@@ -93,7 +101,7 @@ function main(){
   timerWiget.mount(document.body)
 
   function getMessage(){
-    return LIST_MESSAGES[Math.floor(Math.random() * LIST_MESSAGES.length)];
+    return MESSAGES[Math.floor(Math.random() * MESSAGES.length)];
   }
   function handleIntervalTick(){
     var secsLeft = timer.calculateSecsLeft()
@@ -101,6 +109,7 @@ function main(){
     if (secsLeft<=0){
       alert(getMessage());
       timer.reset(MESSAGES_TIMEOUT);
+      timer.start();
     }
   }
 

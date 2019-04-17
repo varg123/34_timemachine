@@ -1,0 +1,7 @@
+div.timer-content{
+    position: fixed; 
+    z-index: 200; 
+    margin: 10px 0px 0px 10px; 
+    padding: 0px 10px 0px 35px;
+    height: 80px; 
+}
