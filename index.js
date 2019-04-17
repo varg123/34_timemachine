@@ -3,7 +3,7 @@ var TEMPLATE = '<h1><span class="js-timer-minutes">00</span>:<span class="js-tim
 var MESSAGES = ["Фраза 1",
                 "Фраза 2"
 ];
-
+var MESSAGES_TIMEOUT = 30;
 
 function padZero(number){
   return ("00" + String(number)).slice(-2);
@@ -92,10 +92,18 @@ function main(){
 
   timerWiget.mount(document.body)
 
+  function getMessage(){
+    return LIST_MESSAGES[Math.floor(Math.random() * LIST_MESSAGES.length)];
+  }
   function handleIntervalTick(){
     var secsLeft = timer.calculateSecsLeft()
     timerWiget.update(secsLeft)
+    if (secsLeft<=0){
+      alert(getMessage());
+      timer.reset(MESSAGES_TIMEOUT);
+    }
   }
+
 
   function handleVisibilityChange(){
     if (document.hidden) {
@@ -115,5 +123,5 @@ function main(){
 
 
 // initialize timer when page ready for presentation
-window.addEventListener('load', main)
+window.onload = main
 
